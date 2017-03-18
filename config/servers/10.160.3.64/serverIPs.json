@@ -1,0 +1,14 @@
+{
+  "port":	"3000",
+  "httpIP": "10.160.3.64",
+  "rfdIP":  "10.92.3.42",
+  "checkRfdIntervallInSeconds": 2,
+  "sipIP":  "10.160.3.64",
+  "mongoDbs":[
+    "due-whvvtr-db-1:27017","due-brbvtr-db-1:27017","due-lubvtr-db-1:27017"],
+  "alternativeServer":  [
+    ["LUB", "10.160.3.64:3000"],
+    ["BRB", "10.160.2.64:3000"],
+    ["WHV", "10.160.1.64:3000"]
+  ]
+}

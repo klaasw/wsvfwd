@@ -1,0 +1,45 @@
+//- Multiple errorModal moeglich: type ergaenzt die id
+mixin errorModal(type,title,errorMessage)
+    div.modal.fade(id='errorModal#{type}', tabindex='-1', role='dialog', aria-labelledby='errorModalLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true')
+                    h4#errorModalLabel.modal-title #{title}
+                .modal-body
+                    p.
+                        #{errorMessage}
+                    p
+                        each val, index in gesamteKonfig.IpConfig.alternativeIPs
+                            a(href='http://' + val[1]) #{val[0]}
+                            | &nbsp;
+
+// mixin für die Zustandsanzeige der Server
+mixin serverListe(ip, idName)
+  li
+    a(href='http://' + ip + '/status/')
+      button.btn.btn-default(
+      class='button' + idName
+      ) &nbsp#{idName}&nbsp
+        span.label.label-default(class='button' + idName + '_DUE') DUE
+        span.label.label-default(class='button' + idName + '_RFD') RFD
+
+mixin sidebarDoku
+  ul.nav.nav-sidebar
+    each val, index in dateien
+      li
+        a(href='#' + val)= val
+
+mixin sidebarStatus
+  ul.nav.nav-sidebar
+    li#uebersicht
+      a(href='/status') Übersicht
+    li#tabelle
+      a(href='/tabelle') Tabellenanzeige
+    li#zustaende
+      a(href='#') Schaltzustände
+    li#benutzer
+      a(href='#') Benutzer
+    li#weiteres
+      a(href='#') weiteres

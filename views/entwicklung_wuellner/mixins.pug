@@ -1,0 +1,37 @@
+mixin errorModal(type,title,errorMessage)
+	//
+		Datei für Sammlung von Codebloecken -sogenannten Mixins -
+
+		@author: Klaas Wuellner (WSV)
+
+		Multiple errorModal moeglich: type ergaenzt die id
+	div.modal.fade(id='errorModal#{type}', tabindex='-1', role='dialog', aria-labelledby='errorModalLabel')
+		.modal-dialog(role='document')
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true')
+					h4#errorModalLabel.modal-title #{title}
+				.modal-body
+					p.
+						#{errorMessage}
+					p
+						each val, index in gesamteKonfig.IpConfig.alternativeIPs
+							a(href='http://' + val[1]) #{val[0]}
+							| &nbsp;
+
+mixin serverListe(ip, idName)
+	// mixin für die Zustandsanzeige der Server
+	li
+		a(href='http://' + ip)
+			button.btn.btn-default(
+			id='button' + idName
+			style='width: 135px;text-align: right;'
+			) &nbsp#{idName}&nbsp
+				span.label.label-default(id='button' + idName + '_DUE') DUE
+				span.label.label-default(id='button' + idName + '_RFD') RFD
+
+mixin mkaButtonListe(arrayKanalListe)
+	// mixin Mehrkanal-Anlagen eines Reviers zur Anzeige der im Revier vorhandenen Kanäle
+	each val, index in arrayKanalListe
+		button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') #{val}

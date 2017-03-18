@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+.panel {
+
+  .title-head {
+    display:                    block;
+    border-bottom-left-radius:  0;
+    border-bottom-right-radius: 0;
+    border-top-width:           0;
+    border-left-width:          0;
+    border-right-width:         0;
+    padding:                    10px 0;
+  }
+
+  .button_span {
+    border-top-left-radius:  0;
+    border-top-right-radius: 0;
+    border-bottom-width:     0;
+    border-left-width:       0;
+    border-right-width:      0;
+  }
+
+  .button_mhan {
+    border-bottom-left-radius:  0;
+    border-bottom-right-radius: 0;
+    border-top-width:           0;
+    border-left-width:          0;
+    border-right-width:         0;
+    padding-top:                10px;
+    padding-bottom:             10px
+  }
+
+  .button_standort {
+    width:              138px;
+    margin-top:         10px;
+    margin-left:        0;
+    margin-right:       0;
+    border-right-width: 1px;
+    border-left-width:  1px;
+    padding-top:        2px;
+    padding-bottom:     2px;
+  }
+
+  .button_mkaDropdown {
+    margin-left:    30%;
+    padding-top:    2px;
+    padding-bottom: 2px;
+    height:         32px;
+    margin-top:     -5px;
+  }
+
+  .button_kanalNr {
+    margin: 5px 0;
+  }
+
+  .dropdown {
+    .dropdown-menu {
+      width: 250px;
+    }
+  }
+}

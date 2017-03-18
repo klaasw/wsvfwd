@@ -1,0 +1,37 @@
+{
+  "SPAN01": "1-H-RFD-WHVVKZ-SPAN-05",
+  "MHAN01": "1-H-RFD-WHVVKZ-MHAN-51",
+  "MHAN02": "1-H-RFD-WHVVKZ-MHAN-52",
+  "MHAN03": "1-H-RFD-WHVVKZ-MHAN-53",
+  "MHAN04": "1-H-RFD-WHVVKZ-MHAN-54",
+  "Funkstellen": {
+    "Button11": [
+      "1-H-RFD-BHVVTA-FKEK-1",
+      "1-H-RFD-BHVVTA-FKEK-2"
+    ],
+    "Button12": [
+      "frei"
+    ],
+    "Button13": [
+      "1-H-RFD-WHVVTA-FKEK-3",
+      "1-H-RFD-WHVVTA-FKEK-4"
+    ],
+    "Button14": [
+      "1-H-RFD-WHVVTA-FKMK-1",
+      ""
+    ],
+    "Button21": [
+      "1-H-RFD-WHVVTA-FKEK-2",
+      ""
+    ],
+    "Button22": [
+      "frei"
+    ],
+    "Button23": [
+      "frei"
+    ],
+    "Button24": [
+      "frei"
+    ]
+  }
+}

@@ -1,0 +1,259 @@
+extends layoutTest
+include mixins
+block append codeTeil1
+
+block content
+    // -Version zum Testen neuer Design Ideen, 
+    // Mithoeren von anderen SPAN bzw Lotsen unter der Navigation
+    div.container-fluid
+        div.content
+            div.col-md-12
+                div.row(style="padding-bottom: 10px;")
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                    div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+                        div.btn.btn-default Lotse
+                            p(style="margin-bottom: 0px;") 77
+                //Scahaltflaechen anzeigen
+                div.row
+                    each val, index in gesamteKonfig.FunkstellenReihe
+                        // - console.log(!{index})
+                        // - console.log(!{val})
+
+                        //- Korrekte Verschachtelung der Row-DIVs
+                        if index == 'Button11'
+                            //- keines, erstes DIV geht vor der schleife auf
+                        if index == 'Button21' || index == 'Button31' || index == 'Button41'
+                            != "</div><div class=\"row\">"
+
+                        div.col-md-2(id=index + 'panel',style="padding-left: 5px;padding-right: 5px;")
+                            div.panel.panel-default(
+                                buttonElement='Panel',
+                                onclick='schalteKanal(event,this,"SPAN")',
+                                style='border-width: 2px;',
+                                class=(val[0] == 'frei' ? 'hidden' : '')
+                            )
+                                div(buttonElement='Flaeche')
+                                    // div.btn.btn-default(
+                                        buttonElement='Mhan',
+                                        id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]],
+                                        class=(val[0] == 'frei' ? 'hidden' : ''),
+                                        style='width: 100%;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;padding-top: 10px;padding-bottom: 10px',
+                                        type='button',
+                                        data-toggle='modal',
+                                        data-target='#mithoerenModal',
+                                        data-funkstelle=val[0],
+                                        data-lautstaerke='100'
+                                        ) #{(gesamteKonfig.MhanZuordnung[val[0]] ? gesamteKonfig.MhanZuordnung[val[0]] : '--ohne--')}
+                                    div.dropdown.text-center
+                                        - kompomentenID = val[0] ? val[0] : '---------------------';
+                                        - geraet = kompomentenID.substr(15,6);
+                                        - standort = kompomentenID.substr(8,6);
+                                        button.btn.btn-default(
+                                            buttonElement='Standort'
+                                            aktiv=kompomentenID
+                                            style='width: 138px;margin-top: 10px;margin-left: 0px;margin-right: 0px;border-right-width: 1px;border-left-width: 1px;padding-top: 2px;padding-bottom: 2px;',
+                                            type='button'
+                                            data-toggle='dropdown'
+                                            aria-haspopup='true'
+                                            aria-expanded='false'
+                                            id='standortListe'
+                                            ortStatus='-1'
+                                            ) #{standort}&nbsp
+                                            span.label.label-default ??
+                                        ul.dropdown-menu(
+                                            style='width:250px'
+                                            aria-labelledby='standortListe'
+                                            )
+                                            each val2, index2 in val
+                                                if val2.length > 1
+                                                    li(
+                                                        buttonElement='anlage'+ (index2 + 1)
+                                                        id=val2
+                                                        fstStatus='-1'
+                                                    )
+                                                        div.radio
+                                                            label.radio-custom(
+                                                                data-initialize='radio'
+
+                                                            )
+                                                                input.sr-only.input-lg(
+                                                                    type='radio',
+                                                                    name='funkstelle',
+                                                                    value='1',
+                                                                    checked='checked'
+                                                                    )
+                                                                span #{val2}&nbsp
+                                                                    span.label.label-default ??
+                                    if gesamteKonfig.FunkstellenDetails[val[0]].MKA
+                                        h2.text-right(
+                                            onclick='schalteKanal(event,this,"SPAN")'
+                                            id=index,
+                                            style='margin-top: 4px;margin-bottom: 5px;'
+                                            buttonElement='kanalNr'
+                                            )
+                                            span(
+                                                onclick='schalteKanal(event,this,"SPAN")'
+                                                ) #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+                                            button.btn.btn-default.btn-lg.dropdown-toggle(
+                                                buttonElement='mkaDropdown',
+                                                type='button',
+                                                data-toggle='modal',
+                                                data-target='#mkaModal',
+                                                style="margin-left:30%;padding-top: 2px;padding-bottom: 2px;height: 32px;margin-top: -5px;",
+                                                onclick='setzeKanalMka(event,this)'
+                                                )
+                                                span.caret
+                                    else
+                                        h2.text-center(
+                                            onclick='schalteKanal(event,this,"SPAN")',
+                                            id=index
+                                            style='margin-top: 4px; margin-bottom: 4px;'
+                                            buttonElement='kanalNr'
+                                        ) #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+                                    p.text-center(
+                                        buttonElement='atis'
+                                    ) 9 211 03 6580
+                                    div.btn.btn-default(
+                                        buttonElement='span'
+                                        span='SPAN01'
+                                        onclick='schalteKanal(event,this,"SPAN")'
+                                        id=gesamteKonfig.ArbeitsplatzGeraete.SPAN01
+                                        style='width: 100%;border-top-left-radius: 0;border-top-right-radius: 0;border-bottom-width: 0px;border-left-width: 0px;border-right-width: 0px;'
+                                        ) Statusleiste
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    // Modalfenster fuer MKA Kanalwahl
+                    div#mkaModal.modal(aria-labelledby='mkaModalLabel')
+                        div.modal-dialog
+                            div.modal-content
+                                div.modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true')
+                                    h4#mkaModalLabel.modal-title Kanalauswahl für Mehrkanal-Anlage
+                                div.modal-body
+                                    p
+                                        +mkaButtonListe(gesamteKonfig.KanalListe)
+
+                                    #mySpinbox.spinbox(data-initialize='spinbox', style="font-size: 20px; width: 20%;")
+                                        input.form-control.input-mini.spinbox-input(type='text', style="height: 75px;font-size:25px")
+                                        div.spinbox-buttons.btn-group.btn-group-vertical(style="width:60px")
+                                            button.btn.btn-default.spinbox-up.btn-lg(type='button', style=" width: 63px; height: 36px;")
+                                                span.glyphicon.glyphicon-chevron-up
+                                                span.sr-only Increase
+                                            button.btn.btn-default.spinbox-down.btn-lg(type='button', style=" width: 63px; height: 36px;")
+                                                span.glyphicon.glyphicon-chevron-down
+                                                span.sr-only Decrease
+
+
+                                div.modal-footer
+                                    button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+                                    button.btn.btn-primary(type='button', data-dismiss='modal', onclick='setzeKanal()') Ändern
+
+                    // Modalfenster fuer Mithoeren und Zuordnung
+                    div#mithoerenModal.modal(aria-labelledby='mithoerenModalLabel')
+                        div.modal-dialog
+                            div.modal-content
+                                div.modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true')
+                                    h4#mithoerenModalLabel.modal-title Mithören für Funkstelle, SNAME, Kanal Nr
+                                div.modal-body
+                                    div.row
+                                        div.col-md-6
+                                            div.panel.panel-default
+                                                div.panel-heading Wähle Lautsprecher
+                                                div.panel-content
+                                                    div.btn.btn-group-vertical
+                                                        each val , index in gesamteKonfig.ArbeitsplatzGeraete
+                                                            if index.indexOf('MHAN') == 0
+                                                                button.btn.btn-default(
+                                                                buttonElement = 'mhanButtonModal'
+                                                                id = val
+                                                                ) #{index}
+
+                                        div.col-md-6
+                                            div.panel.panel-default
+                                                div.panel-heading Wähle Lautstärke für diesen Kanal
+                                                div.panel-content(
+                                                    style='height: 50px;margin-top: 40px;'
+                                                )
+                                                    input#sliderModal(
+                                                        style='width: 100%; margin-top: 40px; margin-bottom: 20px;'
+                                                        type='text'
+                                                        data-slider-min='0'
+                                                        data-slider-max='100'
+                                                        data-slider-step='10'
+                                                        data-slider-value=''
+                                                    )
+                                    div.row
+                                        div.col-md-12
+                                            div.panel.panel-default
+                                                div.panel-heading Auf diesen Kanal aufgeschaltete Arbeitsplätze. Wähle zum Mithören...
+                                                div.panel-content
+                                                    div.btn.btn-group(
+                                                        buttonElement = 'ap_mithoeren'
+                                                        )
+                                                        button.btn.btn-default JA_NA
+                                                        button.btn.btn-default JA_Lotse1
+                                                        button.btn.btn-default JA_Lotse2
+                                                        button.btn.btn-default JA_Lotse3
+
+
+                                div.modal-footer
+                                    button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+                                    button.btn.btn-primary(type='button', data-dismiss='modal', onclick='setzeKanal()') Ändern
+
+
+                    // errorModal als mixin ausgelagert nach layout.jade
+                    +errorModal('DUE','Fehler','Verbindung zum Server abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+                    +errorModal('RFD','RFD-Fehler','Verbindung zum RFD-Dienst abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+
+block append codeTeil2
+    include clientScriptTest

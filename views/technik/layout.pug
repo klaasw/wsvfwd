@@ -1,0 +1,78 @@
+doctype html
+html
+    head
+        title UKW Display Admin
+        link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap/dashboard.css')
+        link(rel='stylesheet', href='/javascripts/fuelux/css/fuelux.min.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-slider.css')
+        link(rel='stylesheet', href='/stylesheets/dataTables.bootstrap.min.css')
+
+
+        block scripts
+            script(src='/javascripts/jquery.min.js')
+            script(src='/javascripts/bootstrap/bootstrap.min.js')
+            script(src='/javascripts/fuelux/js/fuelux.min.js')
+            script(src='/javascripts/jquery.dataTables.min.js')
+
+            script(src='/javascripts/dataTables.bootstrap.js')
+
+            script(src='/socket.io/socket.io.js')
+            script(src='/javascripts/bootstrap-notify.min.js')
+            script(src='/javascripts/bootstrap-slider.js')
+            script(src='/javascripts/dist/admin.js' type='text/javascript')
+
+        include mixins.pug
+        block codeTeil1
+            script.
+                console.log("Lade Navigationslayout")
+
+        body.fuelux
+            .navbar.navbar-default.navbar-fixed-top(role='navigation', style="margin-bottom: 10px;")
+                .container-fluid
+                    .navbar-header
+                        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href='/status') ukwDisplay Admin
+                    .navbar-collapse.collapse
+                        ul.nav.navbar-nav
+                            li#dokumentation
+                                a(href='/dokumentation/') Dokumentation
+                            li#status.active
+                                a(href='/status') Status
+
+                            //- Schleife ueber alle alternativen Server, ID dynamisch zusammensetzen
+                            //- wichtig dabei: Variable #{val[0]} in einfachen Anführungzeichen, sonst Interpolation-Fehler
+
+                        if (!error && (typeof gesamteKonfig != 'undefined'))
+                          ul.nav.navbar-nav.navbar-right
+                            li.dropdown.btn-group.navbar-btn
+                              - aktiverServer = gesamteKonfig.IpConfig.aktuellerServer
+                              each val, index in gesamteKonfig.IpConfig.alternativeIPs
+                                - server = val[1].split(":")
+                                if server[0] == aktiverServer
+                                  button.btn.btn-primary.dropdown-toggle.server-toggle(
+                                  id='button' + val[0]
+                                  type='button'
+                                  data-toggle='dropdown'
+                                  data-label=val[0]
+                                  aria-haspopup='true'
+                                  aria-expanded='false'
+                                  ) &nbsp#{val[0]}&nbsp
+                                    span.label.label-default.due(id='buttonAktiv' + val[0] + '_DUE') DUE
+                                    span.label.label-default.rfd(id='buttonAktiv' + val[0] + '_RFD') RFD
+                                    span.caret
+                                ul.dropdown-menu
+                                  each val1, index1 in gesamteKonfig.IpConfig.alternativeIPs
+                                    +serverListe(val1[1], val1[0])
+                                  - break;
+            div.container-fluid
+                div.row
+                    div.col-md-2.sidebar
+                        block sidebar
+                    div.col-md-10.col-md-offset-2.main
+                        block content
+            block codeTeil2

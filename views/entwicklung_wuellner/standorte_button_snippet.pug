@@ -1,0 +1,41 @@
+// Funkanlagen an Standorten
+
+                                        - komponentenID = val[0] ? val[0] : '---------------------';
+                                        - geraet = komponentenID.substr(15,6);
+                                        - standort = komponentenID.substr(8,6);
+                                        li(
+                                            buttonElement='anlage1'
+                                            id=(val[0] ? gesamteKonfig.FunkstellenDetails[val[0]].id : '--ohne--')
+                                            fstStatus="-1"
+                                        )
+                                            div.radio.checked
+                                                label.radio-custom.checked(
+                                                    data-initialize='radio'
+                                                )
+                                                    input.sr-only.input-lg(
+                                                        type='radio',
+                                                        name='funkstelle',
+                                                        value='1',
+                                                        checked='checked'
+                                                        )
+                                                    span #{val[0] ? komponentenID : '-ohne-'}&nbsp
+                                                        span.label.label-default ??
+                                        - komponentenID = val[1] ? val[1] : '---------------------';
+                                        - geraet = komponentenID.substr(15,6);
+                                        - standort = komponentenID.substr(8,6);
+                                        li(
+                                            buttonElement='anlage2'
+                                            id=(val[1] ? gesamteKonfig.FunkstellenDetails[val[1]].id : '--ohne--')
+                                            fstStatus="-1"
+                                        )
+                                            div.radio
+                                                label.radio-custom.disabled(
+                                                    data-initialize='radio'
+                                                )
+                                                    input.sr-only.input-lg(
+                                                        type='radio',
+                                                        name='funkstelle',
+                                                        value='2',
+                                                        )
+                                                    span #{val[1] ? komponentenID : '-ohne-'}&nbsp
+                                                        span.label.label-default ??

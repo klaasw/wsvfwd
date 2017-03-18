@@ -1,0 +1,80 @@
+{
+  "Button11": [
+    "1-H-RFD-WARVTA-FKEK-3",
+    ""
+  ],
+  "Button12": [
+    "1-H-RFD-DAENHO-FKEK-3",
+    ""
+  ],
+  "Button13":[
+    "1-H-RFD-DASORT-FKEK-2",
+    "1-H-RFD-DASORT-FKEK-3"
+  ],
+  "Button14": [
+    "1-H-RFD-KARLHA-FKEK-2"
+  ],
+
+  "Button21": [
+    "1-H-RFD-WARVTA-FKEK-1",
+    ""
+  ],
+  "Button22": [
+    "1-H-RFD-DAENHO-FKEK-1"
+  ],
+  "Button23": [
+    "1-H-RFD-DASORT-FKEK-1",
+    ""
+  ],
+  "Button24": [
+    "1-H-RFD-KARLHA-FKEK-1"
+  ],
+  "Button25": [
+    "1-H-RFD-STUBBE-FKEK-1",
+    ""
+  ],
+
+  "Button31": [
+    "1-H-RFD-WARVTA-FKMK-1",
+    ""
+  ],
+   "Button32": [
+    "1-H-RFD-DAENHO-FKMK-1",
+    ""
+  ],
+   "Button33": [
+    "1-H-RFD-DASORT-FKMK-1",
+    ""
+  ],
+   "Button34": [
+    "1-H-RFD-KARLHA-FKMK-1",
+    ""
+  ],
+  "Button35": [
+    "1-H-RFD-STUBBE-FKMK-1",
+    ""
+  ],
+  "Button41": [
+    "1-H-RFD-WARVTA-FKEK-2",
+    ""
+  ],
+  "Button42": [
+    "1-H-RFD-DAENHO-FKEK-2",
+    ""
+  ],
+
+  "Button43": [
+    "1-H-RFD-DROSEV-FKGW-1",
+    "1-H-RFD-STUBBE-FKGW-1",
+    "1-H-RFD-WHVVTR-GWST-1",
+    "1-H-RFD-BRBVTR-GWST-1",
+    "1-H-RFD-LUBVTR-GWST-1",
+    "RFD-GW-1"
+  ],
+  "Button44": [
+    "1-H-RFD-KARLHA-FKEK-3"
+  ],
+  "Button45": [
+    "1-H-RFD-DROSEV-FKEK-1"
+  ]
+}

@@ -1,0 +1,75 @@
+extends layout.pug
+block content
+    div.container-fluid
+        div.content
+          div.row
+            div.col-md-12
+              h1 Gesamtübersicht
+          div.row
+            each val, index in gesamteKonfig.IpConfig.alternativeIPs
+              div.col-md-4
+                div.panel.panel-default
+                  div.panel-heading
+                    h3(id=val[0]) #{val[0]}
+                  div.panel-body
+                    div.row
+                      div.col-sm-2
+                        p DUE Peers: 
+                      div.col-sm-10
+                        div.col-sm-6
+                          p DUE1
+                          p URL1
+                          p letzteMeldung
+                          p DUE2
+                          p sdfsd
+                          p letzteMeldung
+                        div.col-sm-6
+                          p(id=val[0] + 'due1') OK
+                          p(id=val[0] + 'dueUrl1') 1.2.3.4
+                          p(id=val[0] + 'dueLetzteMeldung1') 23452345
+                          p(id=val[0] + 'due2') OK
+                          p(id=val[0] + 'dueUrl2') 1.2.3.4
+                          p(id=val[0] + 'dueLetzteMeldung2') asdfasdfasdf
+                    div.row
+                      div.col-sm-2
+                        p SIP-Server:
+                      div.col-sm-10
+                        div.col-sm-6
+                          p Status:
+                          p URL
+                          p msg:
+                          p letzteMeldung
+                        div.col-sm-6
+                          p(id=val[0] + 'sipStatus') Status:
+                          p(id=val[0] + 'sipUrl') Status:
+                          p(id=val[0] + 'sipMsg') msg:
+                          p(id=val[0] + 'sipLetzeMeldung') letzteMeldung:
+                    div.row
+                      div.col-sm-2
+                        p RFD:
+                      div.col-sm-10
+                        div.col-sm-6
+                          p Status:
+                          p URL
+                          p msg:
+                          p letzteMeldung
+                        div.col-sm-6
+                          p(id=val[0] + 'rfdStatus') 1234
+                          p(id=val[0] + 'rfdUrl') URL
+                          p(id=val[0] + 'rfdMsg') msg:
+                          p(id=val[0] + 'rfdLetzteMedlung') letzteMeldung
+
+
+
+
+block sidebar
+  +sidebarStatus
+
+
+block append codeTeil1
+
+
+block append codeTeil2
+    script.
+        $('.nav-sidebar li').removeClass('active');
+        $('#uebersicht').addClass('active')

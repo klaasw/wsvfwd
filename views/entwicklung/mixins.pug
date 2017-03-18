@@ -1,0 +1,61 @@
+mixin errorModal(type,title,errorMessage)
+	//
+		Datei für Sammlung von Codebloecken -sogenannten Mixins -
+		@author: Klaas Wuellner (WSV)
+
+		Multiple errorModal moeglich: type ergaenzt die id
+	div.modal.fade(id='errorModal' + type, tabindex='-1', role='dialog', aria-labelledby='errorModalLabel')
+		.modal-dialog(role='document')
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true')
+					h4#errorModalLabel.modal-title #{title}
+				.modal-body
+					p.errorText1 #{errorMessage} 
+					br
+					h3.errorText2.bg-danger.text-center.text
+						ul
+							each val, index in gesamteKonfig.IpConfig.alternativeIPs
+								li
+									a(href='http://' + val[1]) #{val[0]}
+
+mixin countdownModal(timeout)
+	div.modal.fade#displaySperreModal(role='dialog', tabindex='-1')
+		div.modal-dialog
+			h1.
+				#{timeout}
+
+mixin serverListe(ip, idName)
+	// mixin für die Zustandsanzeige der Server
+	li
+		a(href='http://' + ip + '/ukw/')
+			button.btn.btn-default(
+			class='button' + idName
+			) &nbsp#{idName}&nbsp
+				span.label.label-default(class='button' + idName + '_DUE') DUE
+				span.label.label-default(class='button' + idName + '_RFD') RFD
+
+mixin mkaButtonListe(arrayKanalListe)
+	// mixin Mehrkanal-Anlagen eines Reviers zur Anzeige der im Revier vorhandenen Kanäle
+	each val, index in arrayKanalListe
+		button.btn.btn-default.btn-lg(type='button',onclick='WSV.Display.setzeKanal(this)',data-dismiss='modal') #{val}
+		
+mixin apGeraeteliste(apGeraete)
+	// mixin für Zustandsanzeige der Arbeitsplatzgeräte
+	each val, index in apGeraete
+		if (index.indexOf('SPAN') > -1)
+			li(class = val)
+				a.btn #{index}
+					span.label.label-default.apGeraet(class = 'ag' + val) ??
+		else
+			li(class = val)
+				a.btn #{index}
+					span.label.label-default.apGeraet(class = 'ag' + val) ??
+					
+mixin findeFunkstelle(arrayFunkstellen, mhanZuordnung)
+	// mixin um Funkstellen in Array der Funkstellenreihe zu finden
+	// z.B. Button11:[1-H-RFD-WARVTA-FKEK-2, 1-H-RFD-WARVTA-FKEK-1]
+	- for (var i = 0; i < arrayFunkstellen.length; i++)
+			if mhanZuordnung.hasOwnProperty(arrayFunkstellen[i])
+				p #{mhanZuordnung[arrayFunkstellen[i]]}

@@ -1,0 +1,15 @@
+2016-12-13T12:19:28.604Z ::ffff:10.162.1.65 - GET /benutzer/zeigeWindowsBenutzer, 1.1 200 528 47.899
+2016-12-13T12:19:28.654Z ::ffff:10.162.1.65 - GET /verbindungen/liesVerbindungen?arbeitsplatz=wr%20nvd&aktiveVerbindungen=true, 1.1 200 4541 28.581
+2016-12-13T12:19:39.207Z ::ffff:10.162.1.65 - GET /benutzer/zeigeWindowsBenutzer, 1.1 200 528 3.221
+2016-12-13T12:19:39.281Z ::ffff:10.162.1.65 - GET /lieskonfig?configfile=wr, 1.1 200 900 62.458
+2016-12-13T12:19:39.308Z ::ffff:10.162.1.65 - GET /lieskonfig?configfile=wr_nvd, 1.1 200 307 14.381
+2016-12-13T12:19:39.327Z ::ffff:10.162.1.65 - GET /lieskonfig?configfile=wr_nvd_mhan_zuordnung, 1.1 200 628 14.825
+2016-12-13T12:19:41.280Z ::ffff:10.162.1.96 - GET /ukwTest, 1.1 200 83525 2083.457
+2016-12-13T12:19:41.315Z ::ffff:10.162.1.96 - GET /stylesheets/bootstrap/bootstrap.css, 1.1 200 146010 8.363
+2016-12-13T12:19:41.318Z ::ffff:10.162.1.96 - GET /javascripts/bootstrap/bootstrap.min.js, 1.1 200 37045 11.023
+2016-12-13T12:19:41.323Z ::ffff:10.162.1.96 - GET /javascripts/fuelux/css/fuelux.min.css, 1.1 200 55512 14.522
+2016-12-13T12:19:41.329Z ::ffff:10.162.1.96 - GET /javascripts/jquery.min.js, 1.1 200 95786 14.719
+2016-12-13T12:19:41.331Z ::ffff:10.162.1.96 - GET /stylesheets/bootstrap-slider.css, 1.1 200 7889 26.065
+2016-12-13T12:19:41.341Z ::ffff:10.162.1.96 - GET /javascripts/fuelux/js/fuelux.min.js, 1.1 200 105196 13.361
+2016-12-13T12:19:41.346Z ::ffff:10.162.1.96 - GET /javascripts/bootstrap-notify.min.js, 1.1 200 8122 10.091
+2016-12-13T12:19:41.349Z ::ffff:10.162.1.96 - GET /javascripts/bootstrap-slider.js, 1.1 200 46619 6.798

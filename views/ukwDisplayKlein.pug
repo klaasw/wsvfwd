@@ -1,0 +1,231 @@
+extends layout
+block append codeTeil1
+    script.
+
+
+
+
+
+
+block content
+    div.container-fluid
+        div.content
+            div.col-md-12
+                //Scahaltflaechen anzeigen
+
+                div.row
+                each val, index in gesamteKonfig.FunkstellenReihe
+                    //- console.log(!{index})
+                    //- console.log(!{val})
+
+                    //- Korrekte Verschachtelung der Row-DIVs
+                    if index == 'Button11'
+                        //- keines, erstes DIV geht vor der schleife auf
+                    if index == 'Button21' || index == 'Button31' || index == 'Button41'
+                        div.row
+
+                    div.col-md-2(id=index + 'panel',style="padding-left: 5px;padding-right: 5px;")
+                        div.panel.panel-default(
+                            class=(val[0] == 'frei' ? 'hidden' : '')
+                            style="float:left; margin-bottom: 10px"
+                        )
+                            //Block Mithoeren
+                            div(
+                                id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]]
+                                style="width:100%"
+                            )
+                                //Schaltflaeche MHAN
+                                div.text-center.hidden(
+                                    style="width:100%;border-top-left-radius: 3px;border-top-right-radius: 3px;background-color:#f5f5f5;padding-left: 3px;padding-right: 3px"
+                                ) #{(gesamteKonfig.MhanZuordnung[val[0]] ? gesamteKonfig.MhanZuordnung[val[0]] : '--ohne--')}
+                                    div.pull-right
+                                        span.glyphicon.glyphicon-chevron-down(
+                                            data-toggle='popover'
+                                            container='panel-body'
+                                            data-placement='right'
+                                            title="Popover title"
+                                            data-html='true'
+                                            data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.'
+                                            )
+                                //Schaltflaeche Ship
+                                div.text-center(
+                                    buttonElement='Mhan_ship'
+                                    style="float:left; width:50%; background-color:#f5f5f5"
+                                    )
+                                    div(
+                                        id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]] + 'ship'
+                                        onclick='schalteKanal(event,this)'
+                                        style="cursor: pointer;z-index:-1;float:left;width:20%;height: 44px;padding-top: 12px;font-size: 16px;font-weight: bold;"
+                                    )
+                                        span S
+                                    div.pull-right
+                                        span#test 100
+                                        //span.glyphicon.glyphicon-volume-up(id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]]+'ship_pegel',onclick='setzeLautstaerke(this.id)',style="cursor: pointer;padding-top: 15px;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;",data-toggle='modal',data-target='#pegelModal')
+                                        span.glyphicon.glyphicon-volume-up(
+                                        id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]] + 'ship_pegel'
+                                        style="cursor: pointer;padding-top: 15px;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;"
+                                        data-toggle='popover'
+                                        container='panel-body'
+                                        data-placement='right'
+                                        data-html='true'
+                                        data-content="<input id='ex1', type='text', data-slider-min='0', data-slider-max='100', data-slider-step='10' ,data-slider-orientation='vertical'>"
+                                    )
+                                //Schaltflaeche Pilot
+                                div.text-center(
+                                    buttonElement='Mhan_pilot'
+                                    style="float:left; width:50%;background-color:#f5f5f5"
+                                    )
+                                    div(style="float:left;width:20%;height: 44px;padding-top: 12px;font-size: 16px;font-weight: bold;")
+                                        span L
+                                    div.pull-right
+                                        span#test2 100
+                                        span.glyphicon.glyphicon-volume-up(
+                                            onclick='setzeLautstaerke(this.id)'
+                                            style="cursor: pointer;padding-top: 15px;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;"
+                                            data-toggle='popover'
+                                            container='panel-body'
+                                            data-placement='right'
+                                            title="Popover title"
+                                            data-html='true'
+                                            data-content='<p>Lautstaerke per Softwareeinstellen<input id="ex1" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="10" data-slider-orientation="vertical"/></p>'
+                                        )
+                            //Schaltflaeche Kanal
+                            div(
+                                id=index
+                                buttonElement='Flaeche'
+                                onclick='schalteKanal(event,this,"SPAN")'
+                                style="float:left; width:100%; cursor: pointer;z-index:-1;padding-top: 3px;padding-bottom: 3px"
+                            )
+                                if gesamteKonfig.FunkstellenDetails[val[0]].MKA
+                                    h2.text-right(id=index,style="margin-top: 15px;margin-bottom: 5px;")
+                                        span #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+                                        button.btn.btn-default.btn-lg.dropdown-toggle(type='button', data-toggle='modal',data-target='#mkaModal',style="margin-left:30%;padding-top: 2px;padding-bottom: 2px;height: 36px;margin-top: -5px;",onclick='setzeKanalMka(event,this)')
+                                            span.caret
+                                else
+                                    h2.text-center(
+                                        id=index
+                                        style="margin-top: 15px;margin-bottom: 5px;"
+                                    ) #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+                                //Atis Kennung
+                                div.panel.panel-default.text-center(
+                                    buttonElement='atis'
+                                    style="float:left;width:100%;margin-top:15px;margin-bottom:0px"
+                                ) ATIS
+                                //Funkstellen
+                                div(style="float:left;padding-left: 3px;padding-right: 3px;padding-top: 2px;padding-bottom: 2px;height:25px;width:100%")
+                                    div(
+                                        id=(val[0] ? gesamteKonfig.FunkstellenDetails[val[0]].id : '--ohne--')
+                                        style="float:left; width:50%;border: 1px solid;border-color:#ddd;padding-left: 3px;padding-right: 3px; background-color:#f5f5f5"
+                                        fstStatus="-1"
+                                    )
+                                        //-Geraete von der Komponeten-ID abschneiden
+                                        - kompomentenID = val[0] ? val[0] : '---------------------';
+                                        - geraet = kompomentenID.substr(15,6);
+                                        - standort = kompomentenID.substr(8,6);
+                                        span #{val[0] ? standort : '-ohne-'}
+                                        //div.pull-right
+                                        // span H
+                                    div(
+                                        id=(val[1] ? gesamteKonfig.FunkstellenDetails[val[1]].id : '--ohne--')
+                                        style="float:left; width:50%;border: 1px solid;border-color:#ddd;padding-left: 3px;padding-right: 3px; background-color:#f5f5f5"
+                                        fstStatus="-1"
+                                    )
+                                        //-Geraete von der Komponeten-ID abschneiden
+                                        - kompomentenID = val[1] ? val[1] : '---------------------';
+                                        - geraet = kompomentenID.substr(15,6);
+                                        - standort = kompomentenID.substr(8,6);
+                                        span #{val[1] ? standort : '-ohne-'}
+                                        //div.pull-right
+                                        // span R
+                            //SPAN
+                            div.text-center.hidden(
+                                id=gesamteKonfig.ArbeitsplatzGeraete.SPAN01
+                                style="float:left; width:100%;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;padding-left: 3px;padding-right: 3px"
+                            ) SPAN
+                                //ZUM Test fuer PTT Darstellung span.label.label-danger PTT
+                                div.pull-right
+                                    span.glyphicon.glyphicon-chevron-down(
+                                        data-toggle='popover'
+                                        container='panel-body'
+                                        data-placement='right'
+                                        title="Popover title"
+                                        data-html='true'
+                                        data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.'
+                                    )
+
+
+
+                //Test fuer Slider
+                div#popover-content.hidden
+                    p Lautstaerke per Softwareeinstellen
+                    //input#ex1(data-slider-id='ex1Slider', type='text', data-slider-min='0', data-slider-max='100', data-slider-step='1', data-slider-value='15',data-slider-orientation='vertical')
+                    input#ex1(
+                        type='text'
+                        data-slider-min='0'
+                        data-slider-max='100'
+                        data-slider-step='10'
+                        data-slider-orientation='vertical'
+                    )
+
+
+
+
+
+
+
+                // Modalfenster fuer MKA Kanalwahl
+                #mkaModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='mkaModalLabel')
+                    .modal-dialog(role='document')
+                        .modal-content
+                            .modal-header
+                                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                    span(aria-hidden='true')
+                                h4#mkaModalLabel.modal-title Kanalauswahl für Mehrkanal-Anlage
+                            .modal-body
+                                p
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 1
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 2
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 3
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 4
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 5
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 6
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 7
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 8
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 9
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 10
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 11
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 12
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 69
+                                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 68
+
+                                #mySpinbox.spinbox(data-initialize='spinbox', style="font-size: 20px; width: 20%;")
+                                    input.form-control.input-mini.spinbox-input(type='text', style="height: 75px;font-size:25px")
+                                    div.spinbox-buttons.btn-group.btn-group-vertical(style="width:60px")
+                                        button.btn.btn-default.spinbox-up.btn-lg(type='button', style=" width: 63px; height: 36px;")
+                                            span.glyphicon.glyphicon-chevron-up
+                                            span.sr-only Increase
+                                        button.btn.btn-default.spinbox-down.btn-lg(type='button', style=" width: 63px; height: 36px;")
+                                            span.glyphicon.glyphicon-chevron-down
+                                            span.sr-only Decrease
+
+
+                            .modal-footer
+                                button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+                                button.btn.btn-primary(type='button', data-dismiss='modal', onclick='setzeKanal()') Ändern
+                // errorModal als mixin ausgelagert nach layout.jade
+                +errorModal('DUE','Fehler','Verbindung zum Server abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+                +errorModal('RFD','RFD-Fehler','Verbindung zum RFD-Dienst abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+
+
+
+block append codeTeil2
+    include clientScript
+
+
+   
+  
+     
+    
+  
+
+   
