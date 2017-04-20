@@ -1,0 +1,13 @@
+extends layout.pug
+block append codeTeil2
+  script.
+    $('.navbar-nav li').removeClass('active');
+    $('#dokumentation').addClass('active')
+    $(document).on('click', '.nav-sidebar li' ,function() {
+      $('.nav-sidebar li').removeClass('active');
+      $(this).addClass('active')
+    })
+block sidebar
+  +sidebarDoku
+
+include dokumentationInhalt.pug

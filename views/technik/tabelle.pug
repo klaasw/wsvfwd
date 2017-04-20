@@ -1,0 +1,105 @@
+extends layout
+block content
+    div.container-fluid
+        div.content
+            div.col-md-12
+                p Anzeige aller vom RFD übermittelten Zustände. Auch virtuelle Verbindungen und Sensoren.
+                table#example.display(
+                    style='width: 100%'
+                )
+
+block sidebar
+  +sidebarStatus
+
+
+block append codeTeil1
+
+block append codeTeil2
+    script.
+        $('.nav-sidebar li').removeClass('active');
+        $('#tabelle').addClass('active')
+        //WebSocket Verbindung herstellen
+        var aktuellerUKWserver = location.protocol + '//' + location.hostname + ':'+ location.port;
+        var socket = io(aktuellerUKWserver);
+
+        var dataSet = []
+
+        var dataSetObj = {}
+
+          $.getJSON('verbindungen/liesZustand', function (data) {
+              $.each(data, function (key, val) {
+                  if (val.hasOwnProperty('DUE')) {
+                    return
+                  }
+                  else {
+                      var kanal = '-';
+                      if (val.status.channel){
+                          kanal = val.status.channel == '-1' || '' ? '-' : val.status.channel
+                      }
+                      item = {
+                          id : val._id,
+                          zeit: new Date(val.letzteMeldung).toLocaleString(),
+                          status : val.status.connectState || 'null',
+                          kanal : kanal
+                      }
+                  }
+            dataSet.push(item);
+            })
+            erneuereTabelle()
+        })
+
+        var table = $('#example').DataTable({
+            data: dataSet,
+            columns: [
+                { data: 'zeit', title : 'Zeitstempel'},
+                { data: 'id' , title : 'Id'},
+                { data: 'status', title : 'Status'},
+                { data: 'kanal', title : 'Kanal'}
+            ],
+            rowCallback: function( row, data, index){
+                if(data.status === 'AUSGEFALLEN'){
+                    $(row).addClass('danger')
+                }
+                if(data.status === 'GESTOERT'){
+                    $(row).addClass('warning')
+                }
+           },
+           lengthMenu: [20, 10, 50],
+           order: [0, 'desc']
+
+        });
+        $('#example').addClass('table table-striped table-bordered')
+
+        //var i = 0
+        function erneuereTabelle(){
+            //dataSet[0].kanal = i++;
+            table.clear().draw('full-hold');
+            table.rows.add(dataSet); // Add new data
+            table.columns.adjust().draw('full-hold');
+        }
+
+        //setInterval(erneuereTabelle, 3000);
+
+        //Socket Ereignis Verarbeitung
+                  socket.on('ukwMessage', function (msg) {
+                      if ('FSTSTATUS' in msg) {
+                          var idInMsg = msg.FSTSTATUS.$.id;
+                          var kanal
+                          if (msg.FSTSTATUS.$.channel) {
+                              kanal = msg.FSTSTATUS.$.channel == '-1' ? '-' : msg.FSTSTATUS.$.channel
+                          } else {
+                              kanal = 'keiner'
+                          }
+                        dataSetObj[idInMsg] = {
+                          id: idInMsg,
+                          status: msg.FSTSTATUS.$.connectState,
+                          zeit: new Date(msg.FSTSTATUS.letzteMeldung).toLocaleString(),
+                          kanal: kanal,
+                        }
+
+                        dataSet = Object.values(dataSetObj)
+                        erneuereTabelle();
+
+                      }//If Socket Ende
+
+                  })

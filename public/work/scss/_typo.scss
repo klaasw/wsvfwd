@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  normal;
+  font-weight: 300;
+  src:         local('Open Sans Light'), local('OpenSans-Light'), url(../../fonts/OpenSans-Light.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  normal;
+  font-weight: 400;
+  src:         local('Open Sans'), local('OpenSans'), url(../../fonts/OpenSans-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  normal;
+  font-weight: 700;
+  src:         local('Open Sans Bold'), local('OpenSans-Bold'), url(../../fonts/OpenSans-Bold.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  italic;
+  font-weight: 300;
+  src:         local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(../../fonts/OpenSans-LightItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  italic;
+  font-weight: 400;
+  src:         local('Open Sans Italic'), local('OpenSans-Italic'), url(../../fonts/OpenSans-Italic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:  italic;
+  font-weight: 700;
+  src:         local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url(../../fonts/OpenSans-BoldItalic.woff) format('woff');
+}
+
+body {
+  color:       $body-text-color;
+  font-size:   100%;
+  line-height: 100%;
+  font-weight: normal;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  font-size:   200%;
+  line-height: 200%;
+  font-weight: bold;
+}
+
+h2 {
+  font-size:   160%;
+  line-height: 160%;
+  font-weight: normal;
+}
+
+h3 {
+  font-size:   130%;
+  line-height: 130%;
+  font-weight: normal;
+}
+
+h4 {
+  font-size:   110%;
+  line-height: 110%;
+  font-weight: bold;
+}
+
+.center {
+  text-align: center !important;
+  margin:     0 auto;
+}
+
+.text-strong {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}

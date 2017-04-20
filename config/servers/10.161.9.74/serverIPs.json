@@ -1,0 +1,31 @@
+{
+  "loglevelConsole": "debug",
+  "loglevelFile": "debug",
+  "port":	"3000",
+  "httpIP": "10.161.9.74",
+  "rfdIP":  "10.161.9.142",
+  "sipIP":  "10.161.9.74",
+  "replicaSet": "dueReplicaSet",
+  "auth": false,
+  "auth_user": "ukwserver",
+  "auth_pw": "due",
+  "mongoDbs": [
+    "duep-whvvtr-db-1:27017",
+    "duep-brbvtr-db-1:27017",
+    "duep-lubvtr-db-1:27017"
+  ],
+  "alternativeServer":  [
+    [
+      "BRB",
+      "10.161.9.74"
+    ],
+    [
+      "WHV",
+      "10.161.9.75"
+    ],
+    [
+      "LUB",
+      "10.161.9.76"
+    ]
+  ]
+}

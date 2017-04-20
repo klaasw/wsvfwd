@@ -1,0 +1,53 @@
+mixin zuordnungModal()
+	//
+		Modalfenster fuer die Zuordnung von Funkstellen zu anderen
+		Arbeitsplaetzen (Lotsen) durch NvD oder NA
+		@author: Klaas Wuellner (WSV)
+	div.modal.fade(id='zuordnungModal', tabindex='-1', role='dialog', aria-labelledby='zuordnungModalLabel')
+		.modal-dialog(role='document' style='width:900px')
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true')
+					h4#zuordnungModalLabel.modal-title Kanalzuordnung für Arbeitplätze
+				.modal-body
+					div.row
+						div.col-md-4
+							ul.nav.nav-pills.nav-stacked
+								li.active(role='presentation')
+									a(href='#') Lotse1
+								li(role='presentation')
+									a(href='#') Lotse2
+								li(role='presentation')
+									a(href='#') Lotse3
+						div.col-md-8
+							div.row
+								div.col-md-3
+									div.panel.panel-default
+										div.panel-heading SNAME1
+										div.panel-body
+											h1 16
+								div.col-md-3
+									div.panel.panel-default
+										div.panel-heading SNAME2
+										div.panel-body
+											h1 16
+								div.col-md-3
+									div.panel.panel-default
+										div.panel-heading SNAME3
+										div.panel-body
+											h1 16
+								div.col-md-3
+									div.panel.panel-default
+										div.panel-heading SNAME4
+										div.panel-body
+											h1 16
+							div.row
+								div.col-md-3
+									div.panel.panel-default
+										div.panel-heading SNAME1
+										div.panel-body
+											h1 16
+							
+				.modal-footer
+					button.btn.btn-default(onclick='speichern()') Speichern

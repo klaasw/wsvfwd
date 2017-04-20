@@ -1,0 +1,240 @@
+﻿extends layout
+block append testcode
+    script.
+
+block content
+    div.container-fluid
+        div.content
+            div.col-lg-12
+                each val in funkstellen
+                    div.col-lg-2(id=val.id + '-Panel',style="width: 9%;padding:2px")
+                        div.panel.panel-default(style="padding:2px;margin-bottom:2px")
+                            div.panel-heading(style="padding:2px")
+                                span Ereignis
+                            div.panel-body.bg-default(id=val.id,style="padding:2px")
+                                h4(style="margin-top: 0px; margin-bottom: 0px")=val.channel
+                            div.panel-footer(style="padding:2px")=val.sname
+
+
+                //button.btn.btn-primary.btn-lg#gruppe(type="button",onclick='gruppen(this.id)') Gruppenschaltung
+
+block append testcode2
+    script.
+        //Aktuelles NavElement Hervorheben
+        $(document).ready(function () {
+            $(".nav").find(".active").removeClass("active")
+            $('#uebersicht').addClass('active')
+        })
+        var test = false;
+        var ApID = 'JA_NvD';
+        var SPAN = '1-H-RFD-WHVVKZ-SPAN-01';
+        var ApFunkstellen = {
+            '1-H-RFD-WHVVTA-FKEK-3': {
+                id: '1-H-RFD-WHVVTA-FKEK-3',
+                MKA: false,
+                Kanal: '16',
+                kurzname: 'WHV',
+                aufgeschaltet: null
+            },
+            '1-H-RFD-TETTEN-FKEK-3': {aufgeschaltet: null}
+        };
+
+        var Einzel = true;
+        var einzelStatus
+        var gruppenStatus
+
+
+        //WebSocket Verbindung herstellen
+        var socket = io('10.160.1.64:3001');
+
+        //Variablen zum Arbeitsplatz laden
+        $.get("ukwKonfig?ip=1.1.1.1", function (data) { //IP-Adress nur als Platzhalter zum Testen
+            ApFunkstellen = data.FunkstellenDetails;
+            SPAN = data.ArbeitsplatzGeraete.SPAN01
+        });
+
+
+
+        //Popover aktivieren
+        $("[data-toggle=popover]").popover();
+        $('.popover-title').css("backgrouond-color", "#9FC53B"); $('.popover').css("background-color", "red");
+
+
+        //Test Eingabefeld zum senden von NAchrichten
+        $('form').submit(function () {
+            socket.emit('chat message', $('#nachricht').val());
+            $('#nachricht').val('');
+            return false;
+        });
+
+
+        //Alle eingehenden WebSocket Nachrichten einhaengen
+        socket.on('chat message', function (msg) {
+            $('#messages').append($('<li>').text(msg));
+            //$('#messages').prepend($.text(msg));
+        });
+
+        socket.on('test', function (msg) {
+            if (typeof msg === 'object') {
+                if ('RX' in msg && msg.RX.$.state === '1') {
+                    //$('#'+msg.RX.$.id+'-Panel > div').toggleClass( "panel-danger" )
+                    $('#' + msg.RX.$.id + '-Panel > div > div').addClass("bg-danger")
+                    $('#' + msg.RX.$.id + '-Panel > div > div > h4').addClass("text-danger")
+                    $('#' + msg.RX.$.id + '-Panel > div > div.panel-heading > span').text("Empfang")
+                    $.notify('Empfang:' + ApFunkstellen[msg.RX.$.id].sname)
+                    console.log(msg.RX.$.id)
+                }
+                if ('RX' in msg && msg.RX.$.state === '0') {
+                    //$('#'+msg.RX.$.id+'-Panel > div').toggleClass( "panel-danger" )
+                    $('#' + msg.RX.$.id + '-Panel > div > div').removeClass("bg-danger")
+                    $('#' + msg.RX.$.id + '-Panel > div > div > h4').removeClass("text-danger")
+                    $('#' + msg.RX.$.id + '-Panel > div > div.panel-heading > span').text("Status")//Hier muss Variable fuer Zustand rein
+                    console.log(msg.RX.$.id)
+                }
+                if ('TX' in msg && msg.TX.$.state === '1') {
+                    $('#' + msg.TX.$.id + '-Panel > div').toggleClass("panel-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div').toggleClass("bg-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div > h4').toggleClass("text-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div.panel-heading > span').text("Senden")//Hier muss Variable fuer Zustand rein
+                    console.log(msg.TX.$.id)
+                }
+                if ('TX' in msg && msg.TX.$.state === '0') {
+                    $('#' + msg.TX.$.id + '-Panel > div').toggleClass("panel-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div').toggleClass("bg-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div > h4').toggleClass("text-success")
+                    $('#' + msg.TX.$.id + '-Panel > div > div.panel-heading > span').text("Senden Ende")//Hier muss Variable fuer Zustand rein
+                    console.log(msg.TX.$.id)
+                }
+                if ('geschaltet' in msg && msg.geschaltet.$.state === '1' && msg.geschaltet.$.Ap === SPAN) {
+                    $('#' + msg.geschaltet.$.id + '-Panel > div > div.panel-heading > span').text("aufgeschaltet")
+                    $('#' + msg.geschaltet.$.id + '-Panel > div').addClass("panel-primary")
+                    ApFunkstellen[msg.geschaltet.$.id].aufgeschaltet = true
+                    $.notify('Aufgeschaltet:' + ApFunkstellen[msg.geschaltet.$.id].sname + '')
+                    console.log(msg.geschaltet.$.id)
+                }
+                if ('getrennt' in msg && msg.getrennt.$.state === '1' && msg.getrennt.$.Ap === SPAN) {
+                    $('#' + msg.getrennt.$.id + '-Panel > div > div.panel-heading > span').text("getrennt")
+                    $('#' + msg.getrennt.$.id + '-Panel > div').removeClass("panel-primary")
+                    ApFunkstellen[msg.getrennt.$.id].aufgeschaltet = false
+                    $.notify('Getrennt:' + ApFunkstellen[msg.getrennt.$.id].sname + '')
+                    console.log(msg.getrennt.$.id)
+                }
+                if ('FSTSTATUS' in msg && msg.FSTSTATUS.$.state === '0') {
+                    $('#' + msg.FSTSTATUS.$.id + '-Panel > div > div.panel-heading > span').text("OK")
+                    $('#' + msg.FSTSTATUS.$.id + '-Panel > div').toggleClass("panel-success") //kein Toggeln hier
+                    //$('#'+msg.FSTSTATUS.$.id+'-Panel > div > div').toggleClass( "bg-success" )
+                    //$('#'+msg.FSTSTATUS.$.id+'-Panel > div > div > h4').toggleClass( "text-success" )
+                    console.log(msg.FSTSTATUS.$.id)
+                }
+                if ('FSTSTATUS' in msg && msg.FSTSTATUS.$.state === '1') {
+                    $('#' + msg.FSTSTATUS.$.id + '-Panel > div > div.panel-heading > span').text("Fehler")
+                    $('#' + msg.FSTSTATUS.$.id + '-Panel > div').toggleClass("panel-danger")
+                    //$('#'+msg.FSTSTATUS.$.id+'-Panel > div > div').toggleClass( "bg-success" )
+                    //$('#'+msg.FSTSTATUS.$.id+'-Panel > div > div > h4').toggleClass( "text-success" )
+                    console.log(msg.FSTSTATUS.$.id)
+                }
+            }
+            else {
+                $('#messages').append($('<li>').text(msg));
+                //$('#messages').append($.text(msg));
+            }
+
+        });
+
+        function myFunction(geklickteID) {
+            console.log("Klick: " + geklickteID)
+            //$.notify('test:'+ApFunkstellen[geklickteID].kurzname);
+
+            if (Einzel === true) {
+                $.each(ApFunkstellen, function (key, value) {
+                    if (value.aufgeschaltet === true && key != geklickteID) {
+                        console.log(key, value.aufgeschaltet)
+                        trennen(key)
+                    }
+                    //trenne aufgeschaltet
+                })
+            }
+
+            if (ApFunkstellen[geklickteID].aufgeschaltet === true) {
+                trennen(geklickteID)
+
+            }
+            else {
+                schalten(geklickteID)
+
+            }
+        }
+
+        function trennen(geklickteID) {
+            socket.emit('chat message', {'FstID': geklickteID, 'ApID': ApID, 'SPAN': SPAN, 'aktion': 'trennen'})
+            $.notify('Trenne: ' + ApFunkstellen[geklickteID].sname + ' ...');
+            //ApFunkstellen[geklickteID].aufgeschaltet=false
+
+            //$('#'+geklickteID+'-Panel > div').removeClass( "panel-primary" )
+            //$('#'+geklickteID+'-Panel > div > div.panel-heading > span').text( "getrennt" )
+        }
+
+        function schalten(geklickteID) {
+            socket.emit('chat message', {'FstID': geklickteID, 'ApID': ApID, 'SPAN': SPAN, 'aktion': 'schalten'})
+            $.notify('Schalte: ' + ApFunkstellen[geklickteID].sname + ' ...')
+
+            //ApFunkstellen[geklickteID].aufgeschaltet=true
+            //$('#'+geklickteID+'-Panel > div > div.panel-heading > span').text( "aufgeschaltet" )
+            //$('#'+geklickteID+'-Panel > div').addClass( "panel-primary" )
+            $('.popover-title').css("color", "black");
+            $('.popover').css("color", "black");
+
+        }
+
+
+
+        function myFunction2(geklickteID) {
+            console.log("Klick: Lautstaerke " + geklickteID)
+            //$('#'+geklickteID).popover('toggle')
+        }
+
+        function gruppen(buttonID) {
+
+            //Wechsel zu Gruppenschaltung
+            if (Einzel === true) {
+                Einzel = false
+                einzelStatus = JSON.stringify(ApFunkstellen)//speichere geschalteten Zustand
+                $('#' + buttonID).toggleClass("active")
+                $('#' + buttonID + ' > a').text("Gruppenschaltung")
+                zustandWiederherstellen(JSON.parse(gruppenStatus))// lade Gruppenzustand
+            }
+
+            else {
+                Einzel = true
+                gruppenStatus = JSON.stringify(ApFunkstellen)//speichere geschalteten Zustand
+                $('#' + buttonID).toggleClass("active")
+                $('#' + buttonID + ' > a').text("Einzelschaltung")
+                zustandWiederherstellen(JSON.parse(einzelStatus))//lade Einzelzustand
+
+            }
+
+        }
+
+        function zustandWiederherstellen(AufschalteZustand) {
+            //Backup, da die Funktionen schalten und trennen mit Rueckmeldung schon in ApFunkstellen schreiben
+            backupApFunkstellen = ApFunkstellen
+            $.each(backupApFunkstellen, function (key, value) {
+                if (value.aufgeschaltet == true && AufschalteZustand[key].aufgeschaltet == true) {
+                    //nix
+                }
+                if (value.aufgeschaltet == true && AufschalteZustand[key].aufgeschaltet == false) {
+                    //trennen
+                    trennen(AufschalteZustand[key].id)
+                }
+                if (value.aufgeschaltet == false && AufschalteZustand[key].aufgeschaltet == true) {
+                    //schalten
+                    schalten(AufschalteZustand[key].id)
+                }
+                if (value.aufgeschaltet == false && AufschalteZustand[key].aufgeschaltet == false) {
+                    //nix
+                }
+            })
+
+
+            //console.log("Funkstellen ID nicht vorhanden: "+Id)
+        }

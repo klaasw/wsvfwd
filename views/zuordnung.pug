@@ -1,0 +1,226 @@
+extends layout
+block append codeTeil1
+    script.
+
+
+
+
+
+
+block content
+    div.container-fluid
+        div.content
+            //div.col-md-12
+            // div.row
+            //   ul
+            //    each val, index in gesamteKonfig.LotsenAp
+            //     li=index+'-'+val
+            // div.row
+            //  ul
+            //   each val, index in gesamteKonfig.FunkstellenDetails
+            //    li=index+' - '+ val
+            div.row
+                each valLotse, indexLotse in gesamteKonfig.LotsenAp
+                    div.col-md-3
+                        div.panel.panel-default#indexLotse
+                            div.panel-heading #{indexLotse}
+                            div.panel-body
+                                form.form-inline
+                                    div.form-group FST01:
+                                    //#mySelectlist
+                                    div(id=indexLotse + '_FST01').btn-group.selectlist(style="width:100%" data-initialize='selectlist')
+                                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', style="width:100%")
+                                            span.selected-label  
+                                            span.caret
+                                            span.sr-only Toggle Dropdown
+                                        ul.dropdown-menu(role='menu')
+                                            each val, index in gesamteKonfig.FunkstellenDetails
+                                                if index != 'frei'
+                                                    if valLotse.FST01
+                                                        if valLotse.FST01[0] == index
+                                                            li(data-selected='true')
+                                                                a(href='#') #{index}
+                                                        else
+                                                            li
+                                                                a(href='#') #{index}
+                                                    else
+                                                        li
+                                                            a(href='#') #{index}
+                                            li
+                                                a(href='#') frei
+
+                                        input.hidden.hidden-field(name='mySelectlist', readonly='readonly', aria-hidden='true', type='text')
+
+
+                                form.form-inline
+                                    div.form-group FST02:
+                                    //#mySelectlist
+                                    div(id=indexLotse + '_FST02').btn-group.selectlist(style="width:100%", data-initialize='selectlist')
+                                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', style="width:100%")
+                                            span.selected-label  
+                                            span.caret
+                                            span.sr-only Toggle Dropdown
+                                        ul.dropdown-menu(role='menu')
+                                            each val, index in gesamteKonfig.FunkstellenDetails
+                                                if index != 'frei'
+                                                    if valLotse.FST02
+                                                        if valLotse.FST02[0] == index
+                                                            li(data-selected='true')
+                                                                a(href='#') #{index}
+                                                        else
+                                                            li
+                                                                a(href='#') #{index}
+                                                    else
+                                                        li
+                                                            a(href='#') #{index}
+                                            li
+                                                a(href='#') frei
+
+
+                                        input.hidden.hidden-field(name='mySelectlist', readonly='readonly', aria-hidden='true', type='text')
+
+                                form.form-inline
+                                    div.form-group FST03:
+                                    //#mySelectlist
+                                    div(id=indexLotse + '_FST03').btn-group.selectlist(style="width:100%", data-initialize='selectlist')
+                                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', style="width:100%")
+                                            span.selected-label  
+                                            span.caret
+                                            span.sr-only Toggle Dropdown
+                                        ul.dropdown-menu(role='menu')
+                                            each val, index in gesamteKonfig.FunkstellenDetails
+                                                if index != 'frei'
+                                                    if valLotse.FST03
+                                                        if valLotse.FST03[0] == index
+                                                            li(data-selected='true')
+                                                                a(href='#') #{index}
+                                                        else
+                                                            li
+                                                                a(href='#') #{index}
+                                                    else
+                                                        li
+                                                            a(href='#') #{index}
+                                            li
+                                                a(href='#') frei
+                                        input.hidden.hidden-field(name='mySelectlist', readonly='readonly', aria-hidden='true', type='text')
+                                form.form-inline
+                                    div.form-group FST04:
+                                    //#mySelectlist
+                                    div(id=indexLotse + '_FST04').btn-group.selectlist(style="width:100%", data-initialize='selectlist')
+                                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', style="width:100%")
+                                            span.selected-label  
+                                            span.caret
+                                            span.sr-only Toggle Dropdown
+                                        ul.dropdown-menu(role='menu')
+                                            each val, index in gesamteKonfig.FunkstellenDetails
+                                                if index != 'frei'
+                                                    if valLotse.FST04
+                                                        if valLotse.FST04[0] == index
+                                                            li(data-selected='true')
+                                                                a(href='#') #{index}
+                                                        else
+                                                            li
+                                                                a(href='#') #{index}
+                                                    else
+                                                        li
+                                                            a(href='#') #{index}
+
+                                            li
+                                                a(href='#') frei
+                                        input.hidden.hidden-field(name='mySelectlist', readonly='readonly', aria-hidden='true', type='text')
+
+            div.row
+                div.col-md-3
+                    button.btn.btn-default(onclick='speichern()') Speichern
+
+            //div.row
+            // div.dropdown
+            //  button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+            //    | TEST
+            //    span.caret
+            //  ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+            //   each val, index in gesamteKonfig.FunkstellenDetails
+            //    if index!='frei'
+            //     li
+            //      a(href='#') #{index}
+
+
+            //div.col-md-3
+            // #mySelectlist.btn-group.selectlist(style="width:100%" data-initialize='selectlist')
+            //  button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', style="width:100%")
+            //   span.selected-label  
+            //   span.caret
+            //   span.sr-only Toggle Dropdown
+            //  ul.dropdown-menu(role='menu')
+            //   each val, index in gesamteKonfig.FunkstellenDetails
+            //    if index!='frei'
+            //     li
+            //      a(href='#') #{index}
+            //  input.hidden.hidden-field(name='mySelectlist', readonly='readonly', aria-hidden='true', type='text')
+
+
+
+block append codeTeil2
+    script.
+        $('#myCombobox').combobox();
+
+        //WebSocket Verbindung herstellen
+        var aktuellerUKWserver = location.protocol + '//' + location.hostname + ':3000';
+        var LotsenApStandard; //Standard Kanalzuordnung
+        var LotsenApBenutzer; //Spezifische Zuordnung
+        var socket = io(aktuellerUKWserver);
+
+        ladeKonfig()
+        verbindungsPruefung()
+
+
+        //Ereignisse fuer Verbindungsueberwachung
+        //Dafuer in der Navleiste eine Statusflaeche einbauen
+        function verbindungsPruefung() {
+            socket.on('connect', function () {
+                console.log('check 2------------------------VERBUNDEN', socket.connected);
+
+
+                $('#buttonActiveVTR_DUE').removeClass("label-danger")
+                $('#buttonActiveVTR_DUE').addClass("label-success")
+
+            });
+
+
+            socket.on('disconnect', function () {
+                console.log('check 2-----------------------GETRENNT', socket.connected);
+                $('#buttonActiveVTR_DUE').removeClass("label-success")
+                $('#buttonActiveVTR_DUE').addClass("label-danger")
+
+            });
+        }
+
+        //Variablen zum Arbeitsplatz laden
+        function ladeKonfig() {
+            $.get("ukwKonfig?zuordnung='lotse'&standard=true", function (data) {
+                //console.log(data)
+                LotsenApStandard = data.LotsenAp
+                LotsenApBenutzer = data.LotsenAp
+            });
+        }
+
+
+        $('.selectlist').on('changed.fu.selectlist', function (event, data) {
+            console.log(event.target.id)
+            LotsenApFst = event.target.id.split('_')
+            console.log(data)
+            LotsenApBenutzer[LotsenApFst[0] + '_' + LotsenApFst[1]][LotsenApFst[2]][0] = data.text
+            console.log(LotsenApBenutzer)
+
+
+        })
+
+
+
+
+
+
+        function speichern() {
+            console.log('speichern...')
+            socket.emit('clientMessageSpeichern', {LotsenApBenutzer})
+        }

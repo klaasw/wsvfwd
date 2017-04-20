@@ -1,0 +1,17 @@
+{
+  "SPAN01": "1-H-RFD-WHVVKZ-SPAN-05",
+  "MHAN01": "1-H-RFD-WHVVKZ-MHAN-51",
+  "MHAN02": "1-H-RFD-WHVVKZ-MHAN-52",
+  "MHAN03": "1-H-RFD-WHVVKZ-MHAN-53",
+  "MHAN04": "1-H-RFD-WHVVKZ-MHAN-54",
+  "Funkstellen": {
+      "Button11": [
+        "1-H-RFD-WHVVTA-FKEK-1",
+        ""
+      ],
+      "Button21": [
+        "1-H-RFD-WHVVTA-FKEK-2",
+        ""
+      ]
+    }
+}

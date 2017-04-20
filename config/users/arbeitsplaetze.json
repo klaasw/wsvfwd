@@ -1,0 +1,62 @@
+{
+"::ffff:10.162.1.64": {
+      "user": "JA Lotse1",
+      "revier": "Jade Traffic"},
+"::ffff:10.162.1.65": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.162.1.96": {
+      "user": "WR NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.162.1.143": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.160.1.64": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.160.77.64": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.160.1.110": {
+      "user": "WR NvD",
+      "revier": "Test Referenz"},
+"::ffff:10.160.1.2": {
+      "user": "RE NvD",
+      "revier": "Test Referenz"},
+"::ffff:10.160.2.2": {
+      "user": "WR NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.7.246.32": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.7.246.31": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.7.243.168": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.22.30.100": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.161.9.120": {
+      "user": "EM NvD",
+      "revier": "Jade Traffic"},
+"::ffff:10.160.230.65": {
+      "user": "WR NvD",
+      "revier": "Warnemuende Traffic"},
+"::ffff:10.160.230.81": {
+      "user": "WR NA1",
+      "revier": "Warnemuende Traffic"},
+"::ffff:10.160.230.97": {
+      "user": "ST NA1",
+      "revier": "Stralsund Traffic"},
+"::ffff:10.160.230.113": {
+      "user": "WO NA1",
+      "revier": "Wolgast Traffic"},
+"::ffff:10.160.230.129": {
+      "user": "WR Lotse1",
+      "revier": "Warenmuende Traffic"},
+"fe80::95f9:204a:bc4a:b605": {
+      "user": "JA NvD",
+      "revier": "Jade Traffic"}
+}

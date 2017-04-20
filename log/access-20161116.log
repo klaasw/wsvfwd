@@ -1,0 +1,6 @@
+2016-11-16T10:54:38.159Z ::ffff:10.162.1.96 - GET /ukw, 1.1 - - -
+2016-11-16T10:56:13.192Z ::ffff:10.162.1.65 - GET /benutzer/zeigeWindowsBenutzer, 1.1 - - -
+2016-11-16T10:56:38.264Z ::ffff:10.162.1.96 - GET /ukwTest, 1.1 - - -
+2016-11-16T10:56:38.286Z ::ffff:10.162.1.65 - GET /benutzer/zeigeWindowsBenutzer, 1.1 - - -
+2016-11-16T10:58:38.271Z ::ffff:10.162.1.96 - GET /ukwTest, 1.1 - - -
+2016-11-16T10:58:38.284Z ::ffff:10.162.1.65 - GET /benutzer/zeigeWindowsBenutzer, 1.1 - - -

@@ -1,0 +1,118 @@
+doctype html
+html
+	head
+		title UKW Display
+		link(rel='stylesheet', href='/javascripts/fuelux/css/fuelux.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-slider.css')
+		link(rel='stylesheet', href='/stylesheets/dist/styles.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap/' + aktuellerBenutzer.theme + '.css' id='themesheet')
+
+	block scripts
+		script(src='/javascripts/jquery.min.js' type='text/javascript')
+		script(src='/javascripts/bootstrap/bootstrap.min.js' type='text/javascript')
+		script(src='/javascripts/fuelux/js/fuelux.min.js' type='text/javascript')
+
+		script(src='/socket.io/socket.io.js' type='text/javascript')
+		script(src='/javascripts/bootstrap-notify.min.js' type='text/javascript')
+		script(src='/javascripts/bootstrap-slider.js' type='text/javascript')
+		script(src='/javascripts/dist/main.js' type='text/javascript')
+
+	block codeTeil1
+		script(type='text/javascript').
+			$('document').ready(function () {
+				$('#logo').on('initDisplay', function () {
+					console.log('init display');
+					WSV.Display.aktuellerBenutzer = !{stringify(aktuellerBenutzer)};
+				});
+			});
+
+	body.fuelux
+		block menu
+			.navbar.navbar-default(role='navigation', style="margin-bottom: 10px;")
+				.container-fluid
+					.navbar-header
+						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+							span.sr-only Toggle navigation
+							span.icon-bar
+							span.icon-bar
+							span.icon-bar
+						a.navbar-brand#logo(
+						href='javascript:WSV.Display.showDisplaySperreModal();') ukwDisplay
+					.navbar-collapse.collapse
+						ul.nav.navbar-nav
+
+							if (aktuellerBenutzer.einzel == true)
+								li#statusWechsel(onclick='WSV.Display.wechselEinzelGruppen()', data-einzel='true')
+									a(href='#') Einzelschaltung
+							else
+								li.active#statusWechsel(onclick='WSV.Display.wechselEinzelGruppen()', data-einzel='false')
+									a(href='#') Gruppenschaltung
+							if (aktuellerBenutzer.user.indexOf('lotse') == -1)
+								li#konf
+									a(href='#', data-toggle='modal', data-target='#zuordnungModal') RL Kanalzuordnung
+
+							li.dropdown.btn-group.navbar-btn
+								button.btn.btn-primary.dropdown-toggle(
+								id='buttonThemeSwitcher'
+								type='button'
+								data-toggle='dropdown'
+								aria-haspopup='true'
+								aria-expanded='false'
+								) Farbschema
+									span.caret
+
+								ul.dropdown-menu#theme-switcher
+									li.theme1(class=aktuellerBenutzer.theme === 'bootstrap-theme' ? 'active' : '')
+										a.switch-theme.btn(data-theme='bootstrap-theme') Standard
+									li.theme2(class=aktuellerBenutzer.theme === 'flatly' ? 'active' : '')
+										a.switch-theme.btn(data-theme='flatly') Flach
+									li.theme3(class=aktuellerBenutzer.theme === 'darkly' ? 'active' : '')
+										a.switch-theme.btn(data-theme='darkly') Dunkel / marineblau
+									li.theme4(class=aktuellerBenutzer.theme === 'cyborg' ? 'active' : '')
+										a.switch-theme.btn(data-theme='cyborg') Dunkel / hellblau
+
+
+							li.dropdown.btn-group.navbar-btn
+								button.btn.btn-primary.dropdown-toggle(
+								id='buttonAG'
+								type='button'
+								data-toggle='dropdown'
+								aria-haspopup='true'
+								aria-expanded='false'
+								) Geräte&nbsp
+									#agSammelStatus.span.label.label-default ??
+									span.caret
+
+								ul.dropdown-menu#AGListe
+									+apGeraeteliste(gesamteKonfig.ArbeitsplatzGeraete)
+
+							//- Schleife ueber alle alternativen Server, ID dynamisch zusammensetzen
+							//- wichtig dabei: Variable #{val[0]} in einfachen Anführungzeichen, sonst Interpolation-Fehler
+
+							if (!error && (typeof gesamteKonfig != 'undefined'))
+
+								li.dropdown.btn-group.navbar-btn
+									- aktiverServer = gesamteKonfig.IpConfig.aktuellerServer
+									each val, index in gesamteKonfig.IpConfig.alternativeIPs
+										- server = val[1].split(":")
+										if server[0] == aktiverServer
+											button.btn.btn-primary.dropdown-toggle.server-toggle(
+											class='button' + val[0]
+											id='buttonServerWechsel'
+											type='button'
+											data-toggle='dropdown'
+											data-label=val[0]
+											aria-haspopup='true'
+											aria-expanded='false'
+											) &nbsp#{val[0]}&nbsp
+												span.label.label-default.due(class='buttonAktiv' + val[0] + '_DUE') DUE
+												span.label.label-default.rfd(class='buttonAktiv' + val[0] + '_RFD') RFD
+												span.caret
+										ul.dropdown-menu#serverListe
+											each val1, index1 in gesamteKonfig.IpConfig.alternativeIPs
+												+serverListe(val1[1], val1[0])
+											- break;
+
+		+countdownModal(gesamteKonfig.IpConfig.displaySperreTimeout)
+		block content
+		block codeTeil2

@@ -1,0 +1,206 @@
+extends layoutTest
+include mixins
+include zuordnung
+
+block append codeTeil1
+
+
+block content
+	div.container-fluid
+		div.content
+			// Schaltflaechen fuer LotsenAp
+			// TODO: fuer LotsenAp nicht erstellen
+			div.row
+				each lotsenAp, index in gesamteKonfig.LotsenAp
+					div.col-md-1.text-center(style="padding-left: 5px;padding-right: 5px;")
+							div.btn.btn-default #{gesamteKonfig.FunkstellenDetails[lotsenAp.SPAN01].sname ? gesamteKonfig.FunkstellenDetails[lotsenAp.SPAN01].sname : 'sname'}
+									p(style="margin-bottom: 0px;") Kanal
+			//Schaltflaechen fuer Funkstellen nzeigen
+			div.row
+				each val, index in gesamteKonfig.FunkstellenReihe
+
+					//- Korrekte Verschachtelung der Row-DIVs
+					if index == 'Button11'
+						//- keines, erstes DIV geht vor der schleife auf
+					if index == 'Button21' || index == 'Button31' || index == 'Button41'
+						</div>
+						<div class="row">
+
+					div.col-md-2(id=index + 'panel')
+						div.panel.button_panel.panel-default(
+						data-buttonElement='panel',
+						class=(val[0] == 'frei' ? 'hidden' : '')
+						)
+							div.button_flaeche(data-buttonElement='flaeche')
+								div.btn.btn-default.button_mhan.btn-block(
+								data-buttonElement='mhan',
+								id=gesamteKonfig.ArbeitsplatzGeraete[gesamteKonfig.MhanZuordnung[val[0]]],
+								class=(val[0] == 'frei' ? 'hidden' : ''),
+								type='button',
+								data-toggle='modal',
+								data-target='#mithoerenModal',
+								data-funkstelle=val[0],
+								data-lautstaerke='100'
+								)
+									+findeFunkstelle(val, gesamteKonfig.MhanZuordnung)
+								div.dropdown.text-center
+									- kompomentenID = val[0] ? val[0] : '---------------------';
+									- geraet = kompomentenID.substr(15,6);
+									- standort = kompomentenID.substr(8,6);
+									- kurzname = gesamteKonfig.FunkstellenDetails[val[0]].sname
+									button.btn.btn-default.button_standort(
+									data-buttonElement='standort'
+									data-aktiv=kompomentenID
+									type='button'
+									data-toggle='dropdown'
+									aria-haspopup='true'
+									aria-expanded='false'
+									id='standortListe'
+									ortStatus='-1'
+									) #{kurzname}&nbsp
+										span.label.label-default ??
+									ul.dropdown-menu(
+									aria-labelledby='standortListe'
+									)
+										each val2, index2 in val
+											if val2.length > 1
+												li(
+												class='button_anlage' + (index2 + 1)
+												data-buttonElement='anlage' + (index2 + 1)
+												id=val2
+												geraetStatus='-1'
+												)
+													div.radio
+														label.radio-custom(
+														data-initialize='radio'
+														)
+															input.sr-only.input-lg(
+															type='radio',
+															name='funkstelle' + index,
+															value='1',
+															checked= index2 == 0
+															)
+															span #{val2}&nbsp
+																span.label.label-default ??
+								if gesamteKonfig.FunkstellenDetails[val[0]].MKA
+									h2.text-right.button_kanalNr(
+									onclick='WSV.Display.schalteKanal(event,this,"SPAN")'
+									id=index,
+									data-buttonElement='kanalNr'
+									)
+										span(
+										onclick='WSV.Display.schalteKanal(event,this,"SPAN")'
+										) #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+											button.btn.btn-default.btn-lg.dropdown-toggle.button_mkaDropdown(
+											data-buttonElement='mkaDropdown',
+											type='button',
+											data-toggle='modal',
+											data-target='#mkaModal',
+											onclick='WSV.Display.setzeKanalMka(event,this)'
+											)
+											span.caret
+								else
+									h2.text-center.button_kanalNr(
+									onclick='WSV.Display.schalteKanal(event,this,"SPAN")',
+									id=index
+									data-buttonElement='kanalNr'
+									) #{gesamteKonfig.FunkstellenDetails[val[0]].channel}
+								p.text-center.button_atis(
+								data-buttonElement='atis'
+								) keine ATIS-Kennung
+								div.btn.btn-default.button_span.btn-block(
+								data-buttonElement='span'
+								data-span='SPAN01'
+								onclick='WSV.Display.schalteKanal(event,this,"SPAN")'
+								id=gesamteKonfig.ArbeitsplatzGeraete.SPAN01
+								) SPAN
+
+
+				// Modalfenster fuer MKA Kanalwahl
+				div#mkaModal.modal(aria-labelledby='mkaModalLabel')
+					div.modal-dialog
+						div.modal-content
+							div.modal-header
+								button.close(type='button', data-dismiss='modal', aria-label='Close')
+									span(aria-hidden='true')
+								h4#mkaModalLabel.modal-title Kanalauswahl für Mehrkanal-Anlage
+							div.modal-body
+								p
+									+mkaButtonListe(gesamteKonfig.KanalListe)
+
+								#mySpinbox.spinbox(data-initialize='spinbox', style="font-size: 20px; width: 20%;")
+									input.form-control.input-mini.spinbox-input(type='text', style="height: 75px;font-size:25px")
+									div.spinbox-buttons.btn-group.btn-group-vertical(style="width:60px")
+										button.btn.btn-default.spinbox-up.btn-lg(type='button', style=" width: 63px; height: 36px;")
+											span.glyphicon.glyphicon-chevron-up
+											span.sr-only Increase
+										button.btn.btn-default.spinbox-down.btn-lg(type='button', style=" width: 63px; height: 36px;")
+											span.glyphicon.glyphicon-chevron-down
+											span.sr-only Decrease
+
+
+							div.modal-footer
+								button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+								button.btn.btn-primary(type='button', data-dismiss='modal', onclick='WSV.Display.setzeKanal()') Ändern
+
+				// Modalfenster fuer Mithoeren und Zuordnung
+				div#mithoerenModal.modal(aria-labelledby='mithoerenModalLabel')
+					div.modal-dialog
+						div.modal-content
+							div.modal-header
+								button.close(type='button', data-dismiss='modal', aria-label='Close')
+									span(aria-hidden='true')
+								h4#mithoerenModalLabel.modal-title Mithören für Funkstelle, SNAME, Kanal Nr
+							div.modal-body
+								div.row
+									div.col-md-6
+										div.panel.panel-default
+											div.panel-heading Wähle Lautsprecher
+											div.panel-content
+												div.btn.btn-group-vertical
+													each val , index in gesamteKonfig.ArbeitsplatzGeraete
+														if index.indexOf('MHAN') == 0
+															button.btn.btn-default.button_mhanButtonModal(
+															data-buttonElement = 'mhanButtonModal'
+															id = val
+															) #{index}
+
+									div.col-md-6
+										div.panel.panel-default
+											div.panel-heading Wähle Lautstärke für diesen Kanal
+											div.panel-content(
+											style='height: 50px;margin-top: 40px;'
+											)
+												input#sliderModal(
+												style='width: 100%; margin-top: 40px; margin-bottom: 20px;'
+												type='text'
+												data-slider-min='0'
+												data-slider-max='100'
+												data-slider-step='10'
+												data-slider-value=''
+												)
+								div.row
+									div.col-md-12
+										div.panel.panel-default
+											div.panel-heading Auf diesen Kanal aufgeschaltete Arbeitsplätze. Wähle zum Mithören...
+											div.panel-content
+												div.btn.btn-group.button_ap_mithoeren(
+												data-buttonElement = 'ap_mithoeren'
+												)
+													button.btn.btn-default JA_NA
+													button.btn.btn-default JA_Lotse1
+													button.btn.btn-default JA_Lotse2
+													button.btn.btn-default JA_Lotse3
+
+
+							div.modal-footer
+								button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+								button.btn.btn-primary(type='button', data-dismiss='modal', onclick='WSV.Display.setzeKanal()') Ändern
+
+
+				// errorModal als mixin ausgelagert nach mixins.pug
+				+errorModal('DUE','Fehler','Verbindung zum Server abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+				+errorModal('RFD','RFD-Fehler','Verbindung zum RFD-Dienst abgebrochen. Bitte verwenden Sie folgende alternativen Server:')
+				+errorModal('DUEGeraete','Fehler mit Bediengeräte', 'Folgendes Bediengeräte weist einen Fehler auf: ')
+				// ZuordnungModal als mixin ausgelagert nach zuordnung.pug
+				+zuordnungModal()

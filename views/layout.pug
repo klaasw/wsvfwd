@@ -1,0 +1,100 @@
+//- Multiple errorModal moeglich: type ergaenzt die id
+mixin errorModal(type,title,errorMessage)
+	div.modal.fade(id='errorModal#{type}', tabindex='-1', role='dialog', aria-labelledby='errorModalLabel')
+		.modal-dialog(role='document')
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true')
+					h4#errorModalLabel.modal-title #{title}
+				.modal-body
+					p.
+						#{errorMessage}
+					p
+						each val, index in gesamteKonfig.IpConfig.alternativeIPs
+							a(href='http://' + val[1]) #{val[0]}
+							| &nbsp;
+
+
+// mixin für die Zustandsanzeige der Server
+mixin serverListe(ip, idName)
+	li
+		a(href='http://' + ip)
+			button.btn.btn-default(
+			id='button' + idName
+			style='width: 135px;text-align: right;'
+			) &nbsp#{idName}&nbsp
+				span.label.label-default(id='button' + idName + '_DUE') DUE
+				span.label.label-default(id='button' + idName + '_RFD') RFD
+
+
+doctype html
+html
+	head
+		title UKW Display
+		link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.css')
+		link(rel='stylesheet', href='/javascripts/fuelux/css/fuelux.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-slider.css')
+
+
+		block scripts
+			script(src='/javascripts/jquery.min.js')
+			script(src='/javascripts/bootstrap/bootstrap.min.js')
+			script(src='/javascripts/fuelux/js/fuelux.min.js')
+
+
+			script(src='/socket.io/socket.io.js')
+			script(src='/javascripts/bootstrap-notify.min.js')
+			script(src='/javascripts/bootstrap-slider.js')
+
+
+		block codeTeil1
+			script.
+				console.log("Lade Navigationslayout")
+
+
+		body.fuelux
+			block menu
+				.navbar.navbar-default(role='navigation', style="margin-bottom: 10px;")
+					.container-fluid
+						.navbar-header
+							button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+								span.sr-only Toggle navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							a.navbar-brand(href='/ukw') ukwDisplay
+						.navbar-collapse.collapse
+							ul.nav.navbar-nav
+								li#gruppe(onclick='gruppen(this.id)')
+									a(href='#') Einzelschaltung
+								li#konf
+									a(href='/zuordnung') RL Kanalzuordnung
+							//- Schleife ueber alle alternativen Server, ID dynamisch zusammensetzen
+							//- wichtig dabei: Variable #{val[0]} in einfachen Anführungzeichen, sonst Interpolation-Fehler
+							if (!error && (typeof gesamteKonfig != 'undefined'))
+								- aktiverServer = gesamteKonfig.IpConfig.aktuellerServer
+								each val, index in gesamteKonfig.IpConfig.alternativeIPs
+									- server = val[1].split(":")
+									if server[0] == aktiverServer
+										div.btn-group.navbar-btn.navbar-right#server
+											button.btn.btn-primary.dropdown-toggle(
+											id='button' + '#{val[0]}'
+											type='button'
+											data-toggle='dropdown'
+											aria-haspopup='true'
+											aria-expanded='false'
+											) &nbsp#{val[0]}&nbsp
+									span.label.label-default(id='buttonAktiv' + '#{val[0]}' + '_DUE') DUE
+									span.label.label-default(id='buttonAktiv' + '#{val[0]}' + '_RFD') RFD
+									span.caret
+									ul.dropdown-menu
+									each val1, index1 in gesamteKonfig.IpConfig.alternativeIPs
+										+serverListe(val1[1], val1[0])
+									- break;
+
+
+			block content
+			block codeTeil2
+				script.
+					console.log("Navigationslayout geladen...")

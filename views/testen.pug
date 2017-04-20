@@ -1,0 +1,144 @@
+extends layout
+
+block content
+    div.col-md-3#Button11-Panel
+        div.panel.panel-default
+            div.panel-heading
+                span Ereignis
+                div.pull-right
+                    span.glyphicon.glyphicon-volume-up(onclick='myFunction2(this.id)',style="cursor: pointer",data-toggle='popover', container='panel-body' ,data-placement='right', title="Popover title", data-html='true',data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.')
+                    span 45 &nbsp;&nbsp;
+                    span.glyphicon.glyphicon-volume-up(onclick='myFunction2(this.id)',style="cursor: pointer",data-toggle='popover', container='panel-body' ,data-placement='right', title="Popover title", data-html='true',data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.')
+            div.panel-body.bg-default#Button11(onclick='myFunction(event,this)',style="cursor: pointer")
+                h2.text-center#Button11 69
+                div.bg-success#Button11(style="border: 1px solid;border-color:#ddd")
+                    span#1-H-RFD-WHVVTA-FKMK-1 Hauptanlage
+                div.bg-success#Button11(style="border: 1px solid;border-color:#ddd")
+                    span#1-H-RFD-WHVVTA-FKMK-2 Reserve
+            div.panel-footer MKAWHV #{test24name}
+    div.col-md-3#Button13-Panel()
+        div.panel.panel-default
+            div.panel-heading
+                span Ereignis
+                div.pull-right
+                    span.glyphicon.glyphicon-volume-up(onclick='myFunction2(this.id)',style="cursor: pointer",data-toggle='popover', container='panel-body' ,data-placement='right', title="Popover title", data-html='true',data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.')
+                    span 45 &nbsp;&nbsp;
+                    span.glyphicon.glyphicon-volume-up(onclick='myFunction2(this.id)',style="cursor: pointer",data-toggle='popover', container='panel-body' ,data-placement='right', title="Popover title", data-html='true',data-content='<b>Vivamus</b> sagittis lacus vel augue laoreet rutrum faucibus.')
+            div.panel-body.bg-default#Button13(onclick='myFunction(event,this)',style="cursor: pointer;z-index:-1")
+                h2.text-right#Button13 89
+                    span
+                        button.btn.btn-default.btn-lg.dropdown-toggle(type='button', data-toggle='modal',data-target='#myModal',style="margin-left:30%;padding-top: 2px;padding-bottom: 2px;height: 36px;margin-top: -5px;",onclick='myFunction1(event,this)')
+                            span.caret
+                div.bg-success#Button13(style="border: 1px solid;border-color:#ddd")
+                    span#1-H-RFD-WHVVTA-FKMK-5 Hauptanlage
+                div.bg-success#Button13(style="border: 1px solid;border-color:#ddd")
+                    span#1-H-RFD-WHVVTA-FKMK-6 Reserve
+            div.panel-footer MKAWHV #{test24name}
+
+
+    // Modal
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') ×
+                    h4#myModalLabel.modal-title Modal title
+                .modal-body
+                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 1
+                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 2
+                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 3
+                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 4
+                    button.btn.btn-default.btn-lg(type='button',onclick='setzeKanal(this)',data-dismiss='modal') 5
+                .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close
+                    button.btn.btn-primary(type='button') Save changes
+
+
+
+
+block append testcode2
+    script.
+        function angeklickt(e, element) {
+            e = e || event
+            var ziel = e.target || e.srcElement
+            if (ziel.id == element.id)
+                return true
+            else
+                return false
+        }
+
+        var geklickteMKA
+
+        function myFunction1(event, element) {
+            if (angeklickt(event, element)) {
+                //Eltern Element finden
+                button = $(element).offsetParent().attr('id')
+                //Funkstellen ID finden
+                //geklickteMKA=$('#'+button +'> div > div:nth-child(2) > div:nth-child(2) > span').attr('class')
+                geklickteMKA = $('#' + button + '> div > div:nth-child(2) > div > span').attr('id')
+                console.log("Dropdown von:" + geklickteMKA)
+
+
+            }
+        }
+
+        function myFunction(event, element) {
+            if (angeklickt(event, element)) {
+
+                console.log(element)
+                console.log("Klick: " + element.id)
+                console.log($('#' + element.id + ' div:nth-child(2) > span').attr('id'))
+                console.log($('#' + element.id + ' div:nth-child(3) > span').attr('id'))
+                console.log($('#' + element.id + ' div:nth-child(4) > span').attr('id'))
+                geklickteFstHaupt = $('#' + element.id + ' div:nth-child(2) > span').attr('id')
+                tester(geklickteFstHaupt)
+
+            }
+            //$('#Button11 div span:first-child').css( "border", "2px dotted blue" )
+            //$('#'+geklickteID+' div span').css( "border", "2px dotted blue" )
+            /*
+             console.log(geklickteFstHaupt)
+             console.log(geklickteFStReser)
+             //$.notify('test:'+ApFunkstellen[geklickteID].kurzname);
+
+             if (Einzel===true){
+             $.each(ApFunkstellen,function(key,value){
+             if(value.aufgeschaltet===true && key != geklickteID){
+             console.log(key,value.aufgeschaltet)
+             trennen(key)
+             }
+             //trenne aufgeschaltet
+             })
+             }
+
+             if (ApFunkstellen[geklickteID].aufgeschaltet===true){
+             trennen(geklickteID)
+
+             }
+             else{
+             schalten(geklickteID)
+
+             }*/
+        }
+
+
+        function tester(id) {
+            //$('#'+msg.RX.$.id+'-Panel > div').toggleClass( "panel-danger" )
+            $('#' + id).closest('div').addClass("bg-danger")
+            //$('#'+id).offsetParent().addClass( "bg-danger" )
+            button = $('#' + id).offsetParent().attr('id')
+            $('#' + button + ' > div > div').addClass("bg-danger")
+            $('#' + button + ' > div > div > h2').addClass("text-danger")
+            $('#' + button + ' > div > div.panel-heading > span').text("Empfang")
+
+            $('#' + id + '-Panel > div > div.panel-heading > span').text("Empfang")
+
+        }
+
+        function setzeKanal(element) {
+
+            console.log('chat message', {'FstID': geklickteMKA, 'Kanal': element.innerText, 'aktion': 'setzeKanal'})
+            //socket.emit('chat message',{'FstID':geklickteMKA, 'Kanal':element.innerText, 'aktion':'setzeKanal'})
+            //  $.notify('Setze Kanal: '+ApFunkstellen[geklickteMKA].sname +' auf '+ element.innerText +' ...')
+        }
